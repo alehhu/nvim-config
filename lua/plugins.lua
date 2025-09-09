@@ -43,9 +43,22 @@ return {
 		dependencies = { "nvim-tree/nvim-web-devicons" },
 	},
 
+	{ "nvim-treesitter/playground" },
 	{
 		"nvim-treesitter/nvim-treesitter",
 		build = ":TSUpdate",
+		config = function()
+			vim.defer_fn(function()
+				require("nvim-treesitter.configs").setup({
+					ensure_installed = { "lua", "python", "javascript", "swift", "c", "typescript", "java" },
+					highlight = {
+						enable = true,
+						additional_vim_regex_highlighting = false,
+					},
+					indent = { enable = true },
+				})
+			end, 50)
+		end,
 	},
 
 	{
@@ -77,10 +90,18 @@ return {
 
 	{
 		"williamboman/mason.nvim",
+		cmd = { "Mason", "MasonInstall", "MasonUpdate" },
+		event = "VeryLazy",
 		config = function()
 			require("mason").setup()
+
+			--  Auto-update Mason tools 5 seconds after launch
+			vim.defer_fn(function()
+				vim.cmd("MasonUpdate")
+			end, 5000)
 		end,
 	},
+
 	-- formatter
 	{
 		"stevearc/conform.nvim",
@@ -103,6 +124,7 @@ return {
 	{
 		"williamboman/mason-lspconfig.nvim",
 		dependencies = { "williamboman/mason.nvim" },
+		lazy = true,
 		config = function()
 			require("mason-lspconfig").setup({
 				ensure_installed = {
@@ -113,27 +135,30 @@ return {
 					"jdtls", -- java
 					"lua_ls", -- lua
 				},
+				auto_update = false,
 			})
 		end,
 	},
 	-- Formatters installer
 	{
 		"WhoIsSethDaniel/mason-tool-installer.nvim",
+		cmd = { "MasonToolsInstall", "MasonToolsUpdate" },
 		dependencies = { "williamboman/mason.nvim" },
 		config = function()
 			require("mason-tool-installer").setup({
 				ensure_installed = {
 					"clang-format",
-					"stylua", -- Lua
-					"prettier", -- JS/TS/HTML/CSS
-					"black", -- Python
-					"shellcheck", -- Shell script linter
+					"stylua",
+					"prettier",
+					"black",
+					"shellcheck",
 				},
 				auto_update = true,
-				run_on_start = true,
+				run_on_start = false, -- disable startup run
 			})
 		end,
 	},
+
 	{ "windwp/nvim-autopairs" },
 
 	{
