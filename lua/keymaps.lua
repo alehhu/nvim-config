@@ -1,6 +1,36 @@
 -- vim.keymap.set({mode}, {keys}, {command_or_function}, {options})
 
 local keymap = vim.keymap.set
+
+--Editor specific (Inserting mode)
+keymap("i", "<C-b>", "<ESC>^i", { desc = "move beginning of line" })
+keymap("i", "<C-e>", "<End>", { desc = "move end of line" })
+keymap("i", "<C-h>", "<Left>", { desc = "move left" })
+keymap("i", "<C-l>", "<Right>", { desc = "move right" })
+keymap("i", "<C-j>", "<Down>", { desc = "move down" })
+keymap("i", "<C-k>", "<Up>", { desc = "move up" })
+
+keymap("n", "<Esc>", "<cmd>noh<CR>", { desc = "general clear highlights" })
+
+keymap("n", "<C-s>", "<cmd>w<CR>", { desc = "general save file" })
+keymap("n", "<C-c>", "<cmd>%y+<CR>", { desc = "general copy whole file" })
+
+keymap({ "n", "x" }, "<leader>fm", function()
+	require("conform").format({ lsp_fallback = true })
+end, { desc = "general format file" })
+
+-- buffer management
+keymap("n", "<leader>b", "<cmd>enew<CR>", { desc = "buffer new" })
+-- buffers navigation
+keymap("n", "<Leader>h", ":bprev<CR>", { desc = "previous buffer", noremap = true, silent = true })
+keymap("n", "<Leader>l", ":bnext<CR>", { desc = "next buffer", noremap = true, silent = true })
+
+-- Close current buffer
+keymap("n", "<leader>x", ":bd<CR>", { desc = "Delete buffer" })
+
+-- Pick buffer (if using Telescope)
+keymap("n", "<leader>fb", ":Telescope buffers<CR>", { desc = "List buffers" })
+
 --File explorer
 keymap("n", "<leader>e", "<cmd>NvimTreeToggle<cr>", { desc = "Toggle File Explorer", silent = true })
 keymap("n", "<leader>f", "<cmd>NvimTreeFocus<cr>", { desc = "Focus File Explorer" })
@@ -9,11 +39,40 @@ keymap("n", "<leader>f", "<cmd>NvimTreeFocus<cr>", { desc = "Focus File Explorer
 keymap("n", "<leader>ff", "<cmd>Telescope find_files<cr>", { desc = "Find Files" })
 keymap("n", "<leader>fg", "<cmd>Telescope live_grep<cr>", { desc = "Live Grep" })
 keymap("n", "<leader>fb", "<cmd>Telescope buffers<cr>", { desc = "List Buffers" })
-keymap("n", "<leader>fh", "<cmd>Telescope help_tags<cr>", { desc = "Help Tags" })
+keymap("n", "<leader>fh", "<cmd>Telescope help_tags<CR>", { desc = "telescope help page" })
+keymap("n", "<leader>ma", "<cmd>Telescope marks<CR>", { desc = "telescope find marks" })
+keymap("n", "<leader>fo", "<cmd>Telescope oldfiles<CR>", { desc = "telescope find oldfiles" })
+keymap("n", "<leader>fz", "<cmd>Telescope current_buffer_fuzzy_find<CR>", { desc = "telescope find in current buffer" })
+keymap("n", "<leader>cm", "<cmd>Telescope git_commits<CR>", { desc = "telescope git commits" })
+keymap("n", "<leader>gt", "<cmd>Telescope git_status<CR>", { desc = "telescope git status" })
+keymap("n", "<leader>pt", "<cmd>Telescope terms<CR>", { desc = "telescope pick hidden term" })
 
 keymap("n", "<leader>ts", "<cmd>TSPlaygroundToggle<cr>", { desc = "Toggle Treesitter Playground" })
 
+keymap("n", "<leader>+", function()
+	require("nvchad.themes").open()
+end, { desc = "telescope nvchad themes" })
+--Noice
 keymap("n", "<leader>nd", "<cmd>NoiceDismiss<cr>", { desc = "Dismiss Noice Messages" })
+
+-- terminal
+keymap("t", "<C-x>", "<C-\\><C-N>", { desc = "terminal escape terminal mode" })
+-- new terminals (rather using toggleable ones actually)
+keymap("n", "<leader>th", function()
+	require("nvchad.term").new({ pos = "sp" })
+end, { desc = "terminal new horizontal term" })
+
+keymap("n", "<leader>tv", function()
+	require("nvchad.term").new({ pos = "vsp" })
+end, { desc = "terminal new vertical term" })
+-- toggleable terminals
+keymap({ "n", "t" }, "<A-v>", function()
+	require("nvchad.term").toggle({ pos = "vsp", id = "vtoggleTerm" })
+end, { desc = "terminal toggleable vertical term" })
+
+keymap({ "n", "t" }, "<A-h>", function()
+	require("nvchad.term").toggle({ pos = "sp", id = "htoggleTerm" })
+end, { desc = "terminal toggleable horizontal term" })
 
 -- git signs
 keymap("n", "]c", function()
@@ -38,16 +97,19 @@ end, { desc = "Format File" })
 keymap("n", "<leader>tt", "<cmd>ToggleTerm<cr>", { desc = "Toggle Terminal" })
 
 -- commenting shortcuts (for every language)
-keymap("n", "<leader>-", function()
+keymap("n", "<leader>gcc", function()
 	require("Comment.api").toggle.linewise.current()
 end, { desc = "Toggle Comment" })
-keymap("v", "<leader>-", function()
+keymap("v", "<leader>gc", function()
 	require("Comment.api").toggle.linewise(vim.fn.visualmode())
 end, { desc = "Toggle Comment" })
 
 -- browsing (already mapped actually, just for doc)
 keymap("n", "<leader>gx", "<cmd>Browse<cr>", { desc = "Open Link Under Cursor" })
 
--- buffers navigation
-keymap("n", "<Leader>h", ":bprev<CR>", { noremap = true, silent = true })
-keymap("n", "<Leader>l", ":bnext<CR>", { noremap = true, silent = true })
+-- whichkey
+keymap("n", "<leader>wK", "<cmd>WhichKey <CR>", { desc = "whichkey all keymaps" })
+
+keymap("n", "<leader>wk", function()
+	vim.cmd("WhichKey " .. vim.fn.input("WhichKey: "))
+end, { desc = "whichkey query lookup" })
