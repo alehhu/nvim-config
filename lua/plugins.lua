@@ -1,4 +1,4 @@
-require("lazy").setup({
+return {
 	{
 		"NvChad/base46",
 		lazy = false,
@@ -274,4 +274,4 @@ require("lazy").setup({
 		end,
 		dependencies = { { "nvim-tree/nvim-web-devicons" } },
 	},
-})
+}
