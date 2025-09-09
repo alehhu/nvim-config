@@ -1,4 +1,29 @@
 require("lazy").setup({
+	{
+		"NvChad/base46",
+		lazy = false,
+		build = function()
+			require("base46").load_all_highlights()
+		end,
+	},
+
+	{
+		"NvChad/ui",
+		lazy = false,
+		dependencies = { "NvChad/base46" },
+		config = function()
+			require("nvchad")
+		end,
+	},
+	{
+		"NvChad/volt", -- optional, for theme switching
+	},
+	{
+		"NvChad/minty",
+		config = function()
+			require("minty").setup()
+		end,
+	},
 
 	{
 		"nvim-telescope/telescope.nvim",

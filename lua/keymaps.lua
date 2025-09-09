@@ -29,6 +29,7 @@ keymap("n", "<leader>gb", function()
 	require("gitsigns").blame_line()
 end, { desc = "Blame Line" })
 
+-- mason
 keymap("n", "<leader>m", "<cmd>Mason<cr>", { desc = "Open Mason" })
 keymap("n", "<leader>fm", function()
 	require("conform").format({ async = true })
@@ -46,3 +47,7 @@ end, { desc = "Toggle Comment" })
 
 -- browsing (already mapped actually, just for doc)
 keymap("n", "<leader>gx", "<cmd>Browse<cr>", { desc = "Open Link Under Cursor" })
+
+-- buffers navigation
+keymap("n", "<Leader>h", ":bprev<CR>", { noremap = true, silent = true })
+keymap("n", "<Leader>l", ":bnext<CR>", { noremap = true, silent = true })
