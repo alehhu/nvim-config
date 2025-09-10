@@ -122,6 +122,12 @@ return {
 	},
 	-- LSP installer
 	{
+		"neovim/nvim-lspconfig",
+		config = function()
+			require("lspconfig").lua_ls.setup({})
+		end,
+	},
+	{
 		"williamboman/mason-lspconfig.nvim",
 		dependencies = { "williamboman/mason.nvim" },
 		lazy = true,
