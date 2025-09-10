@@ -33,7 +33,7 @@ keymap("n", "<leader>fb", ":Telescope buffers<CR>", { desc = "List buffers" })
 
 --File explorer
 keymap("n", "<leader>e", "<cmd>NvimTreeToggle<cr>", { desc = "Toggle File Explorer", silent = true })
-keymap("n", "<leader>f", "<cmd>NvimTreeFocus<cr>", { desc = "Focus File Explorer" })
+keymap("n", "<leader>fe", "<cmd>NvimTreeFocus<cr>", { desc = "Focus File Explorer" })
 
 --fuzzy finder
 keymap("n", "<leader>ff", "<cmd>Telescope find_files<cr>", { desc = "Find Files" })

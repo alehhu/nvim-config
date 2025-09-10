@@ -50,7 +50,17 @@ return {
 		config = function()
 			vim.defer_fn(function()
 				require("nvim-treesitter.configs").setup({
-					ensure_installed = { "lua", "python", "javascript", "swift", "c", "typescript", "java" },
+					ensure_installed = {
+						"lua",
+						"python",
+						"javascript",
+						"swift",
+						"c",
+						"typescript",
+						"java",
+						"regex",
+						"bash",
+					},
 					highlight = {
 						enable = true,
 						additional_vim_regex_highlighting = false,
@@ -69,6 +79,19 @@ return {
 				["<leader>g"] = { name = "+git" },
 			},
 		},
+	},
+	{
+		"folke/snacks.nvim",
+		config = function()
+			require("snacks").setup({
+				notifier = {
+					enabled = true,
+					timeout = 2000,
+					fade = true,
+					slide = true,
+				},
+			})
+		end,
 	},
 
 	{ "folke/noice.nvim" },
