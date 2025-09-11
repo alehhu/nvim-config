@@ -73,20 +73,20 @@ return {
 
 	{
 		"folke/which-key.nvim",
-		opts = {
-			defaults = {
-				["<leader>f"] = { name = "+file" },
-				["<leader>g"] = { name = "+git" },
-			},
-		},
+		event = "VeryLazy",
+		config = function(_, opts)
+			require("which-key").setup(opts)
+			require("config.whichkey") -- wk.add() is contained inside
+		end,
 	},
+
 	{
 		"folke/snacks.nvim",
 		config = function()
 			require("snacks").setup({
 				notifier = {
 					enabled = true,
-					timeout = 2000,
+					timeout = 8000,
 					fade = true,
 					slide = true,
 				},
@@ -103,13 +103,34 @@ return {
 		"hrsh7th/nvim-cmp",
 		dependencies = {
 			"hrsh7th/cmp-nvim-lsp",
-			"hrsh7th/cmp-buffer",
-			"hrsh7th/cmp-path",
-			"hrsh7th/cmp-cmdline",
+			"hrsh7th/cmp-buffer", --same buffer: semantic repetition
+			"hrsh7th/cmp-path", -- autocomplete files and directory names
+			"hrsh7th/cmp-cmdline", -- nvim's command line
 			"L3MON4D3/LuaSnip",
 			"saadparwaiz1/cmp_luasnip",
 		},
+		config = function()
+			local cmp = require("cmp")
+			local luasnip = require("luasnip")
+			local keymaps = require("keymaps")
+
+			cmp.setup({
+				snippet = {
+					expand = function(args)
+						luasnip.lsp_expand(args.body)
+					end,
+				},
+				mapping = keymaps.cmp_mappings(),
+				sources = cmp.config.sources({
+					{ name = "nvim_lsp" },
+					{ name = "luasnip" },
+					{ name = "buffer" },
+					{ name = "path" },
+				}),
+			})
+		end,
 	},
+	{ "github/copilot.vim" },
 
 	{
 		"williamboman/mason.nvim",

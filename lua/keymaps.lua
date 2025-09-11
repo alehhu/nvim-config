@@ -40,12 +40,11 @@ keymap("n", "<leader>ff", "<cmd>Telescope find_files<cr>", { desc = "Find Files"
 keymap("n", "<leader>fg", "<cmd>Telescope live_grep<cr>", { desc = "Live Grep" })
 keymap("n", "<leader>fb", "<cmd>Telescope buffers<cr>", { desc = "List Buffers" })
 keymap("n", "<leader>fh", "<cmd>Telescope help_tags<CR>", { desc = "telescope help page" })
-keymap("n", "<leader>ma", "<cmd>Telescope marks<CR>", { desc = "telescope find marks" })
-keymap("n", "<leader>fo", "<cmd>Telescope oldfiles<CR>", { desc = "telescope find oldfiles" })
+keymap("n", "<leader>fo", "<cmd>Telescope oldfiles<CR>", { desc = "Find oldfiles" })
 keymap("n", "<leader>fz", "<cmd>Telescope current_buffer_fuzzy_find<CR>", { desc = "telescope find in current buffer" })
-keymap("n", "<leader>cm", "<cmd>Telescope git_commits<CR>", { desc = "telescope git commits" })
+keymap("n", "<leader>cm", "<cmd>Telescope git_commits<CR>", { desc = "Check repo's all commits" })
 keymap("n", "<leader>gt", "<cmd>Telescope git_status<CR>", { desc = "telescope git status" })
-keymap("n", "<leader>pt", "<cmd>Telescope terms<CR>", { desc = "telescope pick hidden term" })
+keymap("n", "<leader>ft", "<cmd>Telescope terms<CR>", { desc = "Pick hidden toggleable terminals" })
 
 keymap("n", "<leader>ts", "<cmd>TSPlaygroundToggle<cr>", { desc = "Toggle Treesitter Playground" })
 
@@ -89,7 +88,7 @@ keymap("n", "<leader>gb", function()
 end, { desc = "Blame Line" })
 
 -- mason
-keymap("n", "<leader>m", "<cmd>Mason<cr>", { desc = "Open Mason" })
+keymap("n", "<leader>om", "<cmd>Mason<cr>", { desc = "Open Mason" })
 keymap("n", "<leader>fm", function()
 	require("conform").format({ async = true })
 end, { desc = "Format File" })
@@ -105,7 +104,7 @@ keymap("v", "<leader>gc", function()
 end, { desc = "Toggle Comment" })
 
 -- browsing (already mapped actually, just for doc)
-keymap("n", "<leader>gx", "<cmd>Browse<cr>", { desc = "Open Link Under Cursor" })
+keymap("n", "<leader>ol", "<cmd>Browse<cr>", { desc = "Open Link Under Cursor" })
 
 -- whichkey
 keymap("n", "<leader>wK", "<cmd>WhichKey <CR>", { desc = "whichkey all keymaps" })
@@ -113,3 +112,35 @@ keymap("n", "<leader>wK", "<cmd>WhichKey <CR>", { desc = "whichkey all keymaps" 
 keymap("n", "<leader>wk", function()
 	vim.cmd("WhichKey " .. vim.fn.input("WhichKey: "))
 end, { desc = "whichkey query lookup" })
+
+local cmp = require("cmp")
+local luasnip = require("luasnip")
+
+local M = {}
+
+M.cmp_mappings = function()
+	return cmp.mapping.preset.insert({
+		["<C-Space>"] = cmp.mapping.complete(),
+		["<CR>"] = cmp.mapping.confirm({ select = true }),
+		["<Tab>"] = cmp.mapping(function(fallback)
+			if cmp.visible() then
+				cmp.select_next_item()
+			elseif luasnip.expand_or_jumpable() then
+				luasnip.expand_or_jump()
+			else
+				fallback()
+			end
+		end, { "i", "s" }),
+		["<S-Tab>"] = cmp.mapping(function(fallback)
+			if cmp.visible() then
+				cmp.select_prev_item()
+			elseif luasnip.jumpable(-1) then
+				luasnip.jump(-1)
+			else
+				fallback()
+			end
+		end, { "i", "s" }),
+	})
+end
+
+return M
