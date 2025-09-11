@@ -146,7 +146,7 @@ return {
 				user = "🧑 Handsome Dude",
 				assistant = "🤖 Jarvis",
 			},
-			separator = " | ",
+			separator = "--/!@§/--",
 			auto_follow_cursor = false,
 			show_help = true,
 			mappings = {},
