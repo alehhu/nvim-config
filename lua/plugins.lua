@@ -141,9 +141,15 @@ return {
 			{ "nvim-telescope/telescope.nvim" },
 		},
 		opts = {
-			window = { layout = "float" },
+			window = { layout = "float", border = "rounded", title = "My AI slave 🤖😈" },
+			headers = {
+				user = "🧑 Handsome Dude",
+				assistant = "🤖 Jarvis",
+			},
+			separator = " | ",
 			auto_follow_cursor = false,
 			show_help = true,
+			mappings = {},
 		},
 		config = function(_, opts)
 			local chat = require("CopilotChat")

@@ -120,6 +120,9 @@ keymap("n", "<leader>wk", function()
 	vim.cmd("WhichKey " .. vim.fn.input("WhichKey: "))
 end, { desc = "whichkey query lookup" })
 
+--copilot
+keymap("i", "<S-l>", 'copilot#Accept("\\<S-Tab>")', { expr = true, replace_keycodes = false })
+
 local cmp = require("cmp")
 local luasnip = require("luasnip")
 
