@@ -24,12 +24,19 @@ keymap("n", "<leader>b", "<cmd>enew<CR>", { desc = "buffer new" })
 -- buffers navigation
 keymap("n", "<Leader>h", ":bprev<CR>", { desc = "previous buffer", noremap = true, silent = true })
 keymap("n", "<Leader>l", ":bnext<CR>", { desc = "next buffer", noremap = true, silent = true })
-
 -- Close current buffer
 keymap("n", "<leader>x", ":bd<CR>", { desc = "Delete buffer" })
-
 -- Pick buffer (if using Telescope)
 keymap("n", "<leader>fb", ":Telescope buffers<CR>", { desc = "List buffers" })
+
+-- tab management
+keymap("n", "<leader>tn", "<cmd>tabnew<cr>", { desc = "tab new" })
+keymap("n", "<leader>tx", "<cmd>tabclose<cr>", { desc = "tab close" })
+keymap("n", "<leader>to", "<cmd>tabonly<cr>", { desc = "tab only" })
+keymap("n", "<leader>tm", "<cmd>tabmove<cr>", { desc = "tab move" })
+-- tabs navigation
+keymap("n", "<leader><Tab>", ":tabnext<CR>", { desc = "next tab", noremap = true, silent = true })
+keymap("n", "<leader><S-Tab>", ":tabprev<CR>", { desc = "previous tab", noremap = true, silent = true })
 
 --File explorer
 keymap("n", "<leader>e", "<cmd>NvimTreeToggle<cr>", { desc = "Toggle File Explorer", silent = true })

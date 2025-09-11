@@ -133,6 +133,25 @@ return {
 	{ "github/copilot.vim" },
 
 	{
+		"CopilotC-Nvim/CopilotChat.nvim",
+		cmd = "CopilotChat",
+		dependencies = {
+			{ "github/copilot.vim" },
+			{ "nvim-lua/plenary.nvim" },
+			{ "nvim-telescope/telescope.nvim" },
+		},
+		opts = {
+			window = { layout = "float" },
+			auto_follow_cursor = false,
+			show_help = true,
+		},
+		config = function(_, opts)
+			local chat = require("CopilotChat")
+			chat.setup(opts)
+		end,
+	},
+
+	{
 		"williamboman/mason.nvim",
 		cmd = { "Mason", "MasonInstall", "MasonUpdate" },
 		event = "VeryLazy",
