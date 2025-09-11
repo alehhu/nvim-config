@@ -64,7 +64,7 @@ wk.add({
 	{ "<leader>gt", "<cmd>Telescope git_status<cr>", desc = "Git Status" },
 	-- OPEN STUFF
 	{ "<leader>o", group = "open" },
-	{ "<leader>ol", "<cmd>Lazy<cr>", desc = "Open Lazy" },
+	--{ "<leader>ol", "<cmd>Lazy<cr>", desc = "Open Lazy" },
 	{ "<leader>om", "<cmd>Mason<cr>", desc = "Open Mason" },
 
 	-- TOOLS

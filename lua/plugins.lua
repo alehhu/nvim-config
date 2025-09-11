@@ -82,6 +82,7 @@ return {
 
 	{
 		"folke/snacks.nvim",
+		priority = 1000,
 		config = function()
 			require("snacks").setup({
 				notifier = {
@@ -99,6 +100,10 @@ return {
 	{ "lewis6991/gitsigns.nvim" },
 
 	-- autocompletion
+	{
+		"L3MON4D3/LuaSnip",
+		--	build = "make install_jsregexp",
+	},
 	{
 		"hrsh7th/nvim-cmp",
 		dependencies = {
