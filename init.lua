@@ -1,3 +1,6 @@
+vim.g.mapleader = " "
+vim.g.maplocalleader = "\\"
+
 vim.g.base46_cache = vim.fn.stdpath("data") .. "/base46_cache/"
 
 --bootstrap block in case we are installing neovim on a new machine
@@ -15,12 +18,21 @@ vim.opt.rtp:prepend(lazypath)
 
 require("settings")
 require("plugins")
+require("autocmds")
 require("lazy").setup("plugins")
 require("keymaps")
-require("autocmds")
 require("lualine-config")
 require("commands")
 
 for _, v in ipairs(vim.fn.readdir(vim.g.base46_cache)) do
 	dofile(vim.g.base46_cache .. v)
 end
+
+vim.g.vimtex_compiler_latexmk = {
+	out_dir = "build", -- all aux/pdf/log/etc. go here
+}
+
+vim.g.copilot_no_tab_map = true
+
+vim.g.vimtex_complete_enabled = 1
+vim.g.vimtex_complete_close_braces = 1

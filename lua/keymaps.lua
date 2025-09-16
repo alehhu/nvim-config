@@ -102,14 +102,6 @@ end, { desc = "Format File" })
 
 keymap("n", "<leader>tt", "<cmd>ToggleTerm<cr>", { desc = "Toggle Terminal" })
 
--- commenting shortcuts (for every language)
-keymap("n", "<leader>gcc", function()
-	require("Comment.api").toggle.linewise.current()
-end, { desc = "Toggle Comment" })
-keymap("v", "<leader>gc", function()
-	require("Comment.api").toggle.linewise(vim.fn.visualmode())
-end, { desc = "Toggle Comment" })
-
 -- browsing (already mapped actually, just for doc)
 keymap("n", "<leader>ol", "<cmd>Browse<cr>", { desc = "Open Link Under Cursor" })
 
@@ -121,7 +113,11 @@ keymap("n", "<leader>wk", function()
 end, { desc = "whichkey query lookup" })
 
 --copilot
-keymap("i", "<S-l>", 'copilot#Accept("\\<S-Tab>")', { expr = true, replace_keycodes = false })
+keymap("i", "<C-à>", 'copilot#Accept("\\<S-Tab>")', { expr = true, replace_keycodes = false })
+keymap("n", "<C-ò>", "<cmd>CopilotChatToggle <CR>", { desc = "toggle copilot chat windows" })
+keymap("i", "<C-ò>", "<cmd>CopilotChatToggle <CR>", { desc = "toggle copilot chat windows" })
+
+keymap("n", "<leader>gc", "<cmd>GitConflictListQf<CR>", { desc = "list git conflicts" })
 
 local cmp = require("cmp")
 local luasnip = require("luasnip")
@@ -132,19 +128,22 @@ M.cmp_mappings = function()
 	return cmp.mapping.preset.insert({
 		["<C-Space>"] = cmp.mapping.complete(),
 		["<CR>"] = cmp.mapping.confirm({ select = true }),
+
+		-- cmp navigation with Ctrl-j / Ctrl-k
+		["<C-j>"] = cmp.mapping.select_next_item(),
+		["<C-k>"] = cmp.mapping.select_prev_item(),
+
+		-- tab for snippets only
 		["<Tab>"] = cmp.mapping(function(fallback)
-			if cmp.visible() then
-				cmp.select_next_item()
-			elseif luasnip.expand_or_jumpable() then
+			if luasnip.expand_or_jumpable() then
 				luasnip.expand_or_jump()
 			else
 				fallback()
 			end
 		end, { "i", "s" }),
+
 		["<S-Tab>"] = cmp.mapping(function(fallback)
-			if cmp.visible() then
-				cmp.select_prev_item()
-			elseif luasnip.jumpable(-1) then
+			if luasnip.jumpable(-1) then
 				luasnip.jump(-1)
 			else
 				fallback()

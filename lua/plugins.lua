@@ -102,8 +102,57 @@ return {
 	-- autocompletion
 	{
 		"L3MON4D3/LuaSnip",
-		--	build = "make install_jsregexp",
+		version = "v2.*", -- stick to v2 for stability
+		build = "make install_jsregexp", -- works fine on macOS
+		dependencies = {
+			-- Optional: prebuilt snippet collection
+			{
+				"rafamadriz/friendly-snippets",
+				config = function()
+					require("luasnip.loaders.from_vscode").lazy_load()
+				end,
+			},
+		},
+		config = function()
+			local ls = require("luasnip")
+
+			-- Core settings
+			ls.setup({
+				history = true,
+				update_events = "TextChanged,TextChangedI",
+				delete_check_events = "TextChanged",
+				enable_autosnippets = true,
+			})
+
+			-- Keymaps for snippet navigation
+			vim.keymap.set({ "i", "s" }, "<C-k>", function()
+				if ls.expand_or_jumpable() then
+					ls.expand_or_jump()
+				end
+			end, { silent = true, desc = "LuaSnip expand/jump" })
+
+			vim.keymap.set({ "i", "s" }, "<C-j>", function()
+				if ls.jumpable(-1) then
+					ls.jump(-1)
+				end
+			end, { silent = true, desc = "LuaSnip jump back" })
+
+			vim.keymap.set({ "i", "s" }, "<C-l>", function()
+				if ls.choice_active() then
+					ls.change_choice(1)
+				end
+			end, { silent = true, desc = "LuaSnip next choice" })
+
+			-- Load your own snippets
+			require("luasnip.loaders.from_vscode").lazy_load({
+				paths = { vim.fn.stdpath("config") .. "/snippets" },
+			})
+			require("luasnip.loaders.from_lua").load({
+				paths = vim.fn.stdpath("config") .. "/luasnippets",
+			})
+		end,
 	},
+
 	{
 		"hrsh7th/nvim-cmp",
 		dependencies = {
@@ -128,6 +177,7 @@ return {
 				mapping = keymaps.cmp_mappings(),
 				sources = cmp.config.sources({
 					{ name = "nvim_lsp" },
+					{ name = "omni" },
 					{ name = "luasnip" },
 					{ name = "buffer" },
 					{ name = "path" },
@@ -266,7 +316,7 @@ return {
 		-- you can specify also another config if you want
 		config = function()
 			require("gx").setup({
-				open_browser_app = "os_specific", -- specify your browser app; default for macOS is "open", Linux "xdg-open" and Windows "powershell.exe"
+				open_browser_app = "open", -- specify your browser app; default for macOS is "open", Linux "xdg-open" and Windows "powershell.exe"
 				open_browser_args = { "--background" }, -- specify any arguments, such as --background for macOS' "open".
 
 				open_callback = false, -- optional callback function to be called with the selected url on open
@@ -307,7 +357,7 @@ return {
 				},
 				handler_options = {
 					search_engine = "google", -- you can select between google, bing, duckduckgo, ecosia and yandex
-					search_engine = "https://search.brave.com/search?q=", -- or you can pass in a custom search engine
+					--search_engine = "https://search.brave.com/search?q=", -- or you can pass in a custom search engine
 					select_for_search = false, -- if your cursor is e.g. on a link, the pattern for the link AND for the word will always match. This disables this behaviour for default so that the link is opened without the select option for the word AND link
 
 					git_remotes = { "upstream", "origin" }, -- list of git remotes to search for git issue linking, in priority
@@ -326,6 +376,21 @@ return {
 			})
 		end,
 	},
+	{
+		"lervag/vimtex",
+		ft = { "tex", "latex" },
+		lazy = false,
+		init = function()
+			vim.g.tex_flavor = "latex"
+			vim.g.vimtex_view_method = "skim"
+			vim.g.vimtex_compiler_method = "latexmk"
+			vim.g.maplocalleader = "\\"
+			vim.g.vimtex_quickfix_mode = 0
+			vim.opt.conceallevel = 1
+			vim.g.tex_conceal = "abdmg"
+		end,
+	},
+
 	{
 		"nvimdev/dashboard-nvim",
 		event = "VimEnter",

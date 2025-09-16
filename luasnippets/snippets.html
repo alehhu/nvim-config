@@ -1,0 +1,1108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LaTeX Snippets Reference</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+        }
+        
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 30px;
+            font-size: 2.5rem;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .search-container {
+            margin-bottom: 30px;
+            position: relative;
+        }
+        
+        #searchInput {
+            width: 100%;
+            padding: 15px 50px 15px 20px;
+            border: 2px solid #e1e8ed;
+            border-radius: 50px;
+            font-size: 16px;
+            outline: none;
+            transition: all 0.3s ease;
+            box-sizing: border-box;
+        }
+        
+        #searchInput:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 20px rgba(102, 126, 234, 0.3);
+        }
+        
+        .search-icon {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #95a5a6;
+            font-size: 18px;
+        }
+        
+        .category {
+            margin-bottom: 40px;
+        }
+        
+        .category h2 {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 15px 25px;
+            margin: 0 0 20px 0;
+            border-radius: 15px;
+            font-size: 1.4rem;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+        
+        .snippet-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 15px;
+        }
+        
+        .snippet-card {
+            background: white;
+            border: 1px solid #e1e8ed;
+            border-radius: 12px;
+            padding: 20px;
+            transition: all 0.3s ease;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .snippet-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.2);
+            border-color: #667eea;
+        }
+        
+        .snippet-trigger {
+            font-family: 'Monaco', 'Menlo', 'Consolas', monospace;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 14px;
+            display: inline-block;
+            margin-bottom: 10px;
+            box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+        }
+        
+        .snippet-result {
+            font-family: 'Monaco', 'Menlo', 'Consolas', monospace;
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 12px;
+            margin: 10px 0;
+            font-size: 13px;
+            color: #495057;
+            white-space: pre-wrap;
+            overflow-x: auto;
+        }
+        
+        .snippet-description {
+            color: #6c757d;
+            font-style: italic;
+            margin-top: 8px;
+            font-size: 14px;
+        }
+        
+        .context-badge {
+            display: inline-block;
+            background: #28a745;
+            color: white;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            margin: 5px 5px 0 0;
+            font-weight: 500;
+        }
+        
+        .context-badge.math {
+            background: #007bff;
+        }
+        
+        .context-badge.text {
+            background: #28a745;
+        }
+        
+        .context-badge.list {
+            background: #fd7e14;
+        }
+        
+        .context-badge.special {
+            background: #6f42c1;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .export-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 15px 25px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 14px;
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+            transition: all 0.3s ease;
+        }
+        
+        .export-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.6);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>LaTeX Snippets Reference</h1>
+        
+        <div class="search-container">
+            <input type="text" id="searchInput" placeholder="Cerca snippet, comando o descrizione...">
+            <span class="search-icon">🔍</span>
+        </div>
+
+        <div class="category">
+            <h2>📝 Struttura Documento</h2>
+            <div class="snippet-grid">
+                <div class="snippet-card">
+                    <div class="snippet-trigger">template</div>
+                    <div class="snippet-result">\documentclass[a4paper]{article}
+\usepackage[utf8]{inputenc}
+...
+\begin{document}
+    |
+\end{document}</div>
+                    <div class="snippet-description">Template completo di documento LaTeX</div>
+                </div>
+                <div class="snippet-card">
+                    <div class="snippet-trigger">pac</div>
+                    <div class="snippet-result">\usepackage[opzioni]{package}</div>
+                    <div class="snippet-description">Aggiunge un package</div>
+                </div>
+                <div class="snippet-card">
+                    <div class="snippet-trigger">beg</div>
+                    <div class="snippet-result">\begin{ambiente}
+    |
+\end{ambiente}</div>
+                    <div class="snippet-description">Ambiente generico begin/end</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="category">
+            <h2>📋 Liste ed Enumerazioni</h2>
+            <div class="snippet-grid">
+                <div class="snippet-card">
+                    <div class="snippet-trigger">enum</div>
+                    <div class="snippet-result">\begin{enumerate}
+    \item |
+\end{enumerate}</div>
+                    <div class="snippet-description">Lista numerata</div>
+                </div>
+                <div class="snippet-card">
+                    <div class="snippet-trigger">item</div>
+                    <div class="snippet-result">\begin{itemize}
+    \item |
+\end{itemize}</div>
+                    <div class="snippet-description">Lista puntata</div>
+                </div>
+                <div class="snippet-card">
+                    <div class="snippet-trigger">desc</div>
+                    <div class="snippet-result">\begin{description}
+    \item[termine] definizione
+\end{description}</div>
+                    <div class="snippet-description">Lista di definizioni</div>
+                </div>
+                <div class="snippet-card">
+                    <div class="snippet-trigger">item</div>
+                    <div class="snippet-result">\item </div>
+                    <div class="snippet-description">Aggiunge item dentro liste esistenti</div>
+                    <div class="context-badge list">Solo in liste</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="category">
+            <h2>🖼️ Figure e Tabelle</h2>
+            <div class="snippet-grid">
+                <div class="snippet-card">
+                    <div class="snippet-trigger">fig</div>
+                    <div class="snippet-result">\begin{figure}[htpb]
+    \centering
+    \includegraphics[width=0.8\textwidth]{|}
+    \caption{|}
+    \label{fig:|}
+\end{figure}</div>
+                    <div class="snippet-description">Ambiente figura completo</div>
+                </div>
+                <div class="snippet-card">
+                    <div class="snippet-trigger">table</div>
+                    <div class="snippet-result">\begin{table}[htpb]
+    \centering
+    \caption{|}
+    \label{tab:|}
+    \begin{tabular}{c}
+        |
+    \end{tabular}
+\end{table}</div>
+                    <div class="snippet-description">Ambiente tabella completo</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="category">
+            <h2>🔢 Matematica - Ambienti</h2>
+            <div class="snippet-grid">
+                <div class="snippet-card">
+                    <div class="snippet-trigger">mk</div>
+                    <div class="snippet-result">$|$</div>
+                    <div class="snippet-description">Matematica inline</div>
+                </div>
+                <div class="snippet-card">
+                    <div class="snippet-trigger">dm</div>
+                    <div class="snippet-result">\[
+|
+\]</div>
+                    <div class="snippet-description">Matematica display</div>
+                </div>
+                <div class="snippet-card">
+                    <div class="snippet-trigger">ali</div>
+                    <div class="snippet-result">\begin{align*}
+    |
+\end{align*}</div>
+                    <div class="snippet-description">Ambiente align</div>
+                </div>
+                <div class="snippet-card">
+                    <div class="snippet-trigger">case</div>
+                    <div class="snippet-result">\begin{cases}
+    |
+\end{cases}</div>
+                    <div class="snippet-description">Casi matematici</div>
+                    <div class="context-badge math">Solo in math</div>
+                </div>
+                <div class="snippet-card">
+                    <div class="snippet-trigger">aligned</div>
+                    <div class="snippet-result">\begin{aligned}
+    |
+\end{aligned}</div>
+                    <div class="snippet-description">Ambiente aligned (in math, non in align)</div>
+                    <div class="context-badge special">Math + non in align</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="category">
+            <h2>➗ Matematica - Frazioni e Operazioni</h2>
+            <div class="snippet-grid">
+                <div class="snippet-card">
+                    <div class="snippet-trigger">//</div>
+                    <div class="snippet-result">\frac{|}{}</div>
+                    <div class="snippet-description">Frazione (solo in math)</div>
+                    <div class="context-badge math">Solo in math</div>
+                </div>
+                <div class="snippet-card">
+                    <div class="snippet-trigger">/</div>
+                    <div class="snippet-result">\frac{|}{}</div>
+                    <div class="snippet-description">Frazione (ovunque)</div>
+                </div>
+                <div class="snippet-card">
+                    <div class="snippet-trigger">sq</div>
+                    <div class="snippet-result">\sqrt{|}</div>
+                    <div class="snippet-description">Radice quadrata</div>
+                    <div class="context-badge math">Solo in math</div>
+                </div>
+                <div class="snippet-card">
+                    <div class="snippet-trigger">sr</div>
+                    <div class="snippet-result">^2</div>
+                    <div class="snippet-description">Al quadrato</div>
+                    <div class="context-badge math">Solo in math</div>
+                </div>
+                <div class="snippet-card">
+                    <div class="snippet-trigger">cb</div>
+                    <div class="snippet-result">^3</div>
+                    <div class="snippet-description">Al cubo</div>
+                    <div class="context-badge math">Solo in math</div>
+                </div>
+                <div class="snippet-card">
+                    <div class="snippet-trigger">td</div>
+                    <div class="snippet-result">^{|}</div>
+                    <div class="snippet-description">Esponente</div>
+                    <div class="context-badge math">Solo in math</div>
+                </div>
+                <div class="snippet-card">
+                    <div class="snippet-trigger">rd</div>
+                    <div class="snippet-result">^{(|)}</div>
+                    <div class="snippet-description">Esponente con parentesi</div>
+                    <div class="context-badge math">Solo in math</div>
+                </div>
+                <div class="snippet-card">
+                    <div class="snippet-trigger">__</div>
+                    <div class="snippet-result">_{|}</div>
+                    <div class="snippet-description">Pedice</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="category">
+            <h2>🧮 Matematica - Funzioni e Limite</h2>
+            <div class="snippet-grid">
+                <div class="snippet-card">
+                    <div class="snippet-trigger">sum</div>
+                    <div class="snippet-result">\sum_{n=1}^{\infty} a_n z^n</div>
+                    <div class="snippet-description">Sommatoria</div>
+                </div>
+                <div class="snippet-card">
+                    <div class="snippet-trigger">prod</div>
+                    <div class="snippet-result">\prod_{n=1}^{\infty} |</div>
+                    <div class="snippet-description">Produttoria</div>
+                </div>
+                <div class="snippet-card">
+                    <div class="snippet-trigger">lim</div>
+                    <div class="snippet-result">\lim_{n \to \infty} </div>
+                    <div class="snippet-description">Limite</div>
+                </div>
+                <div class="snippet-card">
+                    <div class="snippet-trigger">limsup</div>
+                    <div class="snippet-result">\limsup_{n \to \infty} </div>
+                    <div class="snippet-description">Limite superiore</div>
+                </div>
+                <div class="snippet-card">
+                    <div class="snippet-trigger">part</div>
+                    <div class="snippet-result">\frac{\partial V}{\partial x}</div>
+                    <div class="snippet-description">Derivata parziale</div>
+                </div>
+                <div class="snippet-card">
+                    <div class="snippet-trigger">dint</div>
+                    <div class="snippet-result">\int_{-\infty}^{\infty} |</div>
+                    <div class="snippet-description">Integrale definito</div>
+                    <div class="context-badge math">Solo in math</div>
+                </div>
+                <div class="snippet-card">
+                    <div class="snippet-trigger">taylor</div>
+                    <div class="snippet-result">\sum_{k=0}^{\infty} c_k (x-a)^k</div>
+                    <div class="snippet-description">Serie di Taylor</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="category">
+            <h2">🔗 Matematica - Relazioni e Logica</h2>
+            <div class="snippet-grid">
+                <div class="snippet-card">
+                    <div class="snippet-trigger">=></div>
+                    <div class="snippet-result">\implies</div>
+                    <div class="snippet-description">Implica</div>
+                    <div class="context-badge math">Solo in math</div>
+                </div>
+                <div class="snippet-card">
+                    <div class="snippet-trigger">=<</div>
+                    <div class="snippet-result">\impliedby</div>
+                    <div class="snippet-description">È implicato da</div>
+                    <div class="context-badge math">Solo in math</div>
+                </div>
+                <div class="snippet-card">
+                    <div class="snippet-trigger">iff</div>
+                    <div class="snippet-result">\iff</div>
+                    <div class="snippet-description">Se e solo se</div>
+                    <div class="context-badge math">Solo in math</div>
+                </div>
+                <div class="snippet-card">
+                    <div class="snippet-trigger">EE</div>
+                    <div class="snippet-result">\exists </div>
+                    <div class="snippet-description">Esiste</div>
+                    <div class="context-badge math">Solo in math</div>
+                </div>
+                <div class="snippet-card">
+                    <div class="snippet-trigger">AA</div>
+                    <div class="snippet-result">\forall </div>
+                    <div class="snippet-description">Per ogni</div>
+                    <div class="context-badge math">Solo in math</div>
+                </div>
+                <div class="snippet-card">
+                    <div class="snippet-trigger">!=</div>
+                    <div class="snippet-result">\neq</div>
+                    <div class="snippet-description">Diverso</div>
+                    <div class="context-badge math">Solo in math</div>
+                </div>
+                <div class="snippet-card">
+                    <div class="snippet-trigger"><=</div>
+                    <div class="snippet-result">\le</div>
+                    <div class="snippet-description">Minore uguale</div>
+                </div>
+                <div class="snippet-card">
+                    <div class="snippet-trigger">>=</div>
+                    <div class="snippet-result">\ge</div>
+                    <div class="snippet-description">Maggiore uguale</div>
+                </div>
+                <div class="snippet-card">
+                    <div class="snippet-trigger">==</div>
+                    <div class="snippet-result">&= | \\</div>
+                    <div class="snippet-description">Uguale in align</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="category">
+            <h2>🔢 Matematica - Insiemi</h2>
+            <div class="snippet-grid">
+                <div class="snippet-card">
+                    <div class="snippet-trigger">NN</div>
+                    <div class="snippet-result">\N</div>
+                    <div class="snippet-description">Numeri naturali</div>
+                </div>
+                <div class="snippet-card">
+                    <div class="snippet-trigger">ZZ</div>
+                    <div class="snippet-result">\Z</div>
+                    <div class="snippet-description">Numeri interi</div>
+                </div>
+                <div class="snippet-card">
+                    <div class="snippet-trigger">QQ</div>
+                    <div class="snippet-result">\Q</div>
+                    <div class="snippet-description">Numeri razionali</div>
+                </div>
+                <div class="snippet-card">
+                    <div class="snippet-trigger">RR</div>
+                    <div class="snippet-result">\R</div>
+                    <div class="snippet-description">Numeri reali</div>
+                </div>
+                <div class="snippet-card">
+                    <div class="snippet-trigger">set</div>
+                    <div class="snippet-result">\{|\}</div>
+                    <div class="snippet-description">Insieme</div>
+                    <div class="context-badge math">Solo in math</div>
+                </div>
+                <div class="snippet-card">
+                    <div class="snippet-trigger">cc</div>
+                    <div class="snippet-result">\subset</div>
+                    <div class="snippet-description">Sottoinsieme</div>
+                    <div class="context-badge math">Solo in math</div>
+                </div>
+                <div class="snippet-card">
+                    <div class="snippet-trigger">inn</div>
+                    <div class="snippet-result">\in</div>
+                    <div class="snippet-description">Appartiene</div>
+                    <div class="context-badge math">Solo in math</div>
+                </div>
+                <div class="snippet-card">
+                    <div class="snippet-trigger">notin</div>
+                    <div class="snippet-result">\not\in</div>
+                    <div class="snippet-description">Non appartiene</div>
+                </div>
+                <div class="snippet-card">
+                    <div class="snippet-trigger">UU</div>
+                    <div class="snippet-result">\cup</div>
+                    <div class="snippet-description">Unione</div>
+                </div>
+                <div class="snippet-card">
+                    <div class="snippet-trigger">Nn</div>
+                    <div class="snippet-result">\cap</div>
+                    <div class="snippet-description">Intersezione</div>
+                </div>
+                <div class="snippet-card">
+                    <div class="snippet-trigger">\\\\\\</div>
+                    <div class="snippet-result">\setminus</div>
+                    <div class="snippet-description">Differenza insiemi</div>
+                    <div class="context-badge math">Solo in math</div>
+                </div>
+                <div class="snippet-card">
+                    <div class="snippet-trigger">OO</div>
+                    <div class="snippet-result">\O</div>
+                    <div class="snippet-description">Insieme vuoto</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="category">
+            <h2>🎛️ Matematica - Delimitatori</h2>
+            <div class="snippet-grid">
+                <div class="snippet-card">
+                    <div class="snippet-trigger">()</div>
+                    <div class="snippet-result">\left( | \right)</div>
+                    <div class="snippet-description">Parentesi tonde grandi</div>
+                    <div class="context-badge math">Solo in math</div>
+                </div>
+                <div class="snippet-card">
+                    <div class="snippet-trigger">lr</div>
+                    <div class="snippet-result">\left( | \right)</div>
+                    <div class="snippet-description">Parentesi tonde left-right</div>
+                </div>
+                <div class="snippet-card">
+                    <div class="snippet-trigger">lr[</div>
+                    <div class="snippet-result">\left[ | \right]</div>
+                    <div class="snippet-description">Parentesi quadre grandi</div>
+                </div>
+                <div class="snippet-card">
+                    <div class="snippet-trigger">lr{</div>
+                    <div class="snippet-result">\left\{ | \right\}</div>
+                    <div class="snippet-description">Parentesi graffe grandi</div>
+                </div>
+                <div class="snippet-card">
+                    <div class="snippet-trigger">lr|</div>
+                    <div class="snippet-result">\left| | \right|</div>
+                    <div class="snippet-description">Valore assoluto</div>
+                </div>
+                <div class="snippet-card">
+                    <div class="snippet-trigger">lra</div>
+                    <div class="snippet-result">\left\langle | \right\rangle</div>
+                    <div class="snippet-description">Parentesi angolari</div>
+                </div>
+                <div class="snippet-card">
+                    <div class="snippet-trigger">ceil</div>
+                    <div class="snippet-result">\left\lceil | \right\rceil</div>
+                    <div class="snippet-description">Ceiling (arrotondamento per eccesso)</div>
+                    <div class="context-badge math">Solo in math</div>
+                </div>
+                <div class="snippet-card">
+                    <div class="snippet-trigger">floor</div>
+                    <div class="snippet-result">\left\lfloor | \right\rfloor</div>
+                    <div class="snippet-description">Floor (arrotondamento per difetto)</div>
+                    <div class="context-badge math">Solo in math</div>
+                </div>
+                <div class="snippet-card">
+                    <div class="snippet-trigger">norm</div>
+                    <div class="snippet-result">\|| \|</div>
+                    <div class="snippet-description">Norma</div>
+                    <div class="context-badge math">Solo in math</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="category">
+            <h2>🎯 Formattazione Testo</h2>
+            <div class="snippet-grid">
+                <div class="snippet-card">
+                    <div class="snippet-trigger">emph</div>
+                    <div class="snippet-result">\emph{|}</div>
+                    <div class="snippet-description">Enfasi (corsivo)</div>
+                    <div class="context-badge text">Solo fuori math</div>
+                </div>
+                <div class="snippet-card">
+                    <div class="snippet-trigger">textbf</div>
+                    <div class="snippet-result">\textbf{|}</div>
+                    <div class="snippet-description">Grassetto</div>
+                    <div class="context-badge text">Solo fuori math</div>
+                </div>
+                <div class="snippet-card">
+                    <div class="snippet-trigger">tt</div>
+                    <div class="snippet-result">\text{|}</div>
+                    <div class="snippet-description">Testo in modalità math</div>
+                    <div class="context-badge math">Solo in math</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="category">
+            <h2>🎨 TikZ e Grafici</h2>
+            <div class="snippet-grid">
+                <div class="snippet-card">
+                    <div class="snippet-trigger">plot</div>
+                    <div class="snippet-result">\begin{figure}[htpb]
+    \centering
+    \begin{tikzpicture}
+        \begin{axis}[...]
+            \addplot[domain=-10:10, samples=100]{|};
+        \end{axis}
+    \end{tikzpicture}
+\end{figure}</div>
+                    <div class="snippet-description">Grafico TikZ completo</div>
+                </div>
+                <div class="snippet-card">
+                    <div class="snippet-trigger">nn</div>
+                    <div class="snippet-result">\node[|] (nome) at (0,0) {$contenuto$};</div>
+                    <div class="snippet-description">Nodo TikZ</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="category">
+            <h2>⚡ Snippet Intelligenti</h2>
+            <div class="snippet-grid">
+                <div class="snippet-card">
+                    <div class="snippet-trigger">x2</div>
+                    <div class="snippet-result">x_{2}</div>
+                    <div class="snippet-description">Auto-subscript (lettera + numero)</div>
+                    <div class="context-badge math">Solo in math</div>
+                </div>
+                <div class="snippet-card">
+                    <div class="snippet-trigger">xbar</div>
+                    <div class="snippet-result">\overline{x}</div>
+                    <div class="snippet-description">Barra sopra lettera</div>
+                    <div class="context-badge math">Solo in math</div>
+                </div>
+                <div class="snippet-card">
+                    <div class="snippet-trigger">xhat</div>
+                    <div class="snippet-result">\hat{x}</div>
+                    <div class="snippet-description">Cappello sopra lettera</div>
+                    <div class="context-badge math">Solo in math</div>
+                </div>
+                <div class="snippet-card">
+                    <div class="snippet-trigger">bar</div>
+                    <div class="snippet-result">\overline{|}</div>
+                    <div class="snippet-description">Barra sopra (generico)</div>
+                    <div class="context-badge math">Solo in math</div>
+                </div>
+                <div class="snippet-card">
+                    <div class="snippet-trigger">hat</div>
+                    <div class="snippet-result">\hat{|}</div>
+                    <div class="snippet-description">Cappello sopra (generico)</div>
+                    <div class="context-badge math">Solo in math</div>
+                </div>
+                <div class="snippet-card">
+                    <div class="snippet-trigger">conj</div>
+                    <div class="snippet-result">\overline{|}</div>
+                    <div class="snippet-description">Coniugato complesso</div>
+                    <div class="context-badge math">Solo in math</div>
+                </div>
+                <div class="snippet-card">
+                    <div class="snippet-trigger">bigfun</div>
+                    <div class="snippet-result">\begin{align*}
+    f: \R &\longrightarrow \R \\
+    x &\longmapsto f(x) = |
+\end{align*}</div>
+                    <div class="snippet-description">Definizione funzione grande</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="category">
+            <h2>🔤 Lettere Greche e Simboli</h2>
+            <div class="snippet-grid">
+                <div class="snippet-card">
+                    <div class="snippet-trigger">alpha</div>
+                    <div class="snippet-result">\alpha</div>
+                    <div class="snippet-description">Alfa</div>
+                    <div class="context-badge math">Solo in math</div>
+                </div>
+                <div class="snippet-card">
+                    <div class="snippet-trigger">beta</div>
+                    <div class="snippet-result">\beta</div>
+                    <div class="snippet-description">Beta</div>
+                    <div class="context-badge math">Solo in math</div>
+                </div>
+                <div class="snippet-card">
+                    <div class="snippet-trigger">gamma</div>
+                    <div class="snippet-result">\gamma</div>
+                    <div class="snippet-description">Gamma</div>
+                    <div class="context-badge math">Solo in math</div>
+                </div>
+                <div class="snippet-card">
+                    <div class="snippet-trigger">...</div>
+                    <div class="snippet-result">\ldots</div>
+                    <div class="snippet-description">Tre puntini</div>
+                    <div class="context-badge math">Solo in math</div>
+                </div>
+                <div class="snippet-card">
+                    <div class="snippet-trigger">ooo</div>
+                    <div class="snippet-result">\infty</div>
+                    <div class="snippet-description">Infinito</div>
+                </div>
+                <div class="snippet-card">
+                    <div class="snippet-trigger">lll</div>
+                    <div class="snippet-result">\ell</div>
+                    <div class="snippet-description">L corsiva</div>
+                </div>
+                <div class="snippet-card">
+                    <div class="snippet-trigger">nabl</div>
+                    <div class="snippet-result">\nabla</div>
+                    <div class="snippet-description">Nabla (gradiente)</div>
+                    <div class="context-badge math">Solo in math</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="category">
+            <h2">🎯 Variabili Comuni</h2>
+            <div class="snippet-grid">
+                <div class="snippet-card">
+                    <div class="snippet-trigger">xnn</div>
+                    <div class="snippet-result">x_{n}</div>
+                    <div class="snippet-description">x con indice n</div>
+                    <div class="context-badge math">Solo in math</div>
+                </div>
+                <div class="snippet-card">
+                    <div class="snippet-trigger">ynn</div>
+                    <div class="snippet-result">y_{n}</div>
+                    <div class="snippet-description">y con indice n</div>
+                    <div class="context-badge math">Solo in math</div>
+                </div>
+                <div class="snippet-card">
+                    <div class="snippet-trigger">xii</div>
+                    <div class="snippet-result">x_{i}</div>
+                    <div class="snippet-description">x con indice i</div>
+                    <div class="context-badge math">Solo in math</div>
+                </div>
+                <div class="snippet-card">
+                    <div class="snippet-trigger">yii</div>
+                    <div class="snippet-result">y_{i}</div>
+                    <div class="snippet-description">y con indice i</div>
+                    <div class="context-badge math">Solo in math</div>
+                </div>
+                <div class="snippet-card">
+                    <div class="snippet-trigger">xjj</div>
+                    <div class="snippet-result">x_{j}</div>
+                    <div class="snippet-description">x con indice j</div>
+                    <div class="context-badge math">Solo in math</div>
+                </div>
+                <div class="snippet-card">
+                    <div class="snippet-trigger">yjj</div>
+                    <div class="snippet-result">y_{j}</div>
+                    <div class="snippet-description">y con indice j</div>
+                    <div class="context-badge math">Solo in math</div>
+                </div>
+                <div class="snippet-card">
+                    <div class="snippet-trigger">xp1</div>
+                    <div class="snippet-result">x_{n+1}</div>
+                    <div class="snippet-description">x con indice n+1</div>
+                    <div class="context-badge math">Solo in math</div>
+                </div>
+                <div class="snippet-card">
+                    <div class="snippet-trigger">xmm</div>
+                    <div class="snippet-result">x_{m}</div>
+                    <div class="snippet-description">x con indice m</div>
+                    <div class="context-badge math">Solo in math</div>
+                </div>
+                <div class="snippet-card">
+                    <div class="snippet-trigger">rij</div>
+                    <div class="snippet-result">(x_n)_{n \in \N}</div>
+                    <div class="snippet-description">Successione indicizzata</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="category">
+            <h2>🔄 Operatori e Frecce</h2>
+            <div class="snippet-grid">
+                <div class="snippet-card">
+                    <div class="snippet-trigger">xx</div>
+                    <div class="snippet-result">\times</div>
+                    <div class="snippet-description">Prodotto cartesiano</div>
+                    <div class="context-badge math">Solo in math</div>
+                </div>
+                <div class="snippet-card">
+                    <div class="snippet-trigger">**</div>
+                    <div class="snippet-result">\cdot</div>
+                    <div class="snippet-description">Prodotto (puntino)</div>
+                </div>
+                <div class="snippet-card">
+                    <div class="snippet-trigger">-></div>
+                    <div class="snippet-result">\to</div>
+                    <div class="snippet-description">Freccia destra</div>
+                    <div class="context-badge math">Solo in math</div>
+                </div>
+                <div class="snippet-card">
+                    <div class="snippet-trigger"><-></div>
+                    <div class="snippet-result">\leftrightarrow</div>
+                    <div class="snippet-description">Freccia bidirezionale</div>
+                    <div class="context-badge math">Solo in math</div>
+                </div>
+                <div class="snippet-card">
+                    <div class="snippet-trigger">!></div>
+                    <div class="snippet-result">\mapsto</div>
+                    <div class="snippet-description">Mappa in</div>
+                    <div class="context-badge math">Solo in math</div>
+                </div>
+                <div class="snippet-card">
+                    <div class="snippet-trigger">invs</div>
+                    <div class="snippet-result">^{-1}</div>
+                    <div class="snippet-description">Inverso</div>
+                    <div class="context-badge math">Solo in math</div>
+                </div>
+                <div class="snippet-card">
+                    <div class="snippet-trigger">compl</div>
+                    <div class="snippet-result">^{c}</div>
+                    <div class="snippet-description">Complementare</div>
+                    <div class="context-badge math">Solo in math</div>
+                </div>
+                <div class="snippet-card">
+                    <div class="snippet-trigger">>></div>
+                    <div class="snippet-result">\gg</div>
+                    <div class="snippet-description">Molto maggiore</div>
+                </div>
+                <div class="snippet-card">
+                    <div class="snippet-trigger"><<</div>
+                    <div class="snippet-result">\ll</div>
+                    <div class="snippet-description">Molto minore</div>
+                </div>
+                <div class="snippet-card">
+                    <div class="snippet-trigger">~~</div>
+                    <div class="snippet-result">\sim</div>
+                    <div class="snippet-description">Simile/proporzionale</div>
+                </div>
+                <div class="snippet-card">
+                    <div class="snippet-trigger">||</div>
+                    <div class="snippet-result"> \mid </div>
+                    <div class="snippet-description">Divisibile per</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="category">
+            <h2>🧮 Funzioni Matematiche</h2>
+            <div class="snippet-grid">
+                <div class="snippet-card">
+                    <div class="snippet-trigger">sin</div>
+                    <div class="snippet-result">\sin</div>
+                    <div class="snippet-description">Seno</div>
+                    <div class="context-badge math">Solo in math</div>
+                </div>
+                <div class="snippet-card">
+                    <div class="snippet-trigger">cos</div>
+                    <div class="snippet-result">\cos</div>
+                    <div class="snippet-description">Coseno</div>
+                    <div class="context-badge math">Solo in math</div>
+                </div>
+                <div class="snippet-card">
+                    <div class="snippet-trigger">ln</div>
+                    <div class="snippet-result">\ln</div>
+                    <div class="snippet-description">Logaritmo naturale</div>
+                    <div class="context-badge math">Solo in math</div>
+                </div>
+                <div class="snippet-card">
+                    <div class="snippet-trigger">log</div>
+                    <div class="snippet-result">\log</div>
+                    <div class="snippet-description">Logaritmo</div>
+                    <div class="context-badge math">Solo in math</div>
+                </div>
+                <div class="snippet-card">
+                    <div class="snippet-trigger">exp</div>
+                    <div class="snippet-result">\exp</div>
+                    <div class="snippet-description">Esponenziale</div>
+                    <div class="context-badge math">Solo in math</div>
+                </div>
+                <div class="snippet-card">
+                    <div class="snippet-trigger">arcsin</div>
+                    <div class="snippet-result">\arcsin</div>
+                    <div class="snippet-description">Arcoseno</div>
+                    <div class="context-badge math">Solo in math</div>
+                </div>
+                <div class="snippet-card">
+                    <div class="snippet-trigger">arccos</div>
+                    <div class="snippet-result">\arccos</div>
+                    <div class="snippet-description">Arcocoseno</div>
+                    <div class="context-badge math">Solo in math</div>
+                </div>
+                <div class="snippet-card">
+                    <div class="snippet-trigger">mcal</div>
+                    <div class="snippet-result">\mathcal{|}</div>
+                    <div class="snippet-description">Stile calligrafico</div>
+                    <div class="context-badge math">Solo in math</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="category">
+            <h2>🔧 Insiemi Speciali e Operazioni</h2>
+            <div class="snippet-grid">
+                <div class="snippet-card">
+                    <div class="snippet-trigger">R0+</div>
+                    <div class="snippet-result">\R_0^+</div>
+                    <div class="snippet-description">Reali positivi con zero</div>
+                </div>
+                <div class="snippet-card">
+                    <div class="snippet-trigger">HH</div>
+                    <div class="snippet-result">\mathbb{H}</div>
+                    <div class="snippet-description">Quaternioni</div>
+                </div>
+                <div class="snippet-card">
+                    <div class="snippet-trigger">DD</div>
+                    <div class="snippet-result">\mathbb{D}</div>
+                    <div class="snippet-description">Disco unitario</div>
+                </div>
+                <div class="snippet-card">
+                    <div class="snippet-trigger">uuu</div>
+                    <div class="snippet-result">\bigcup_{i \in I} |</div>
+                    <div class="snippet-description">Unione grande</div>
+                </div>
+                <div class="snippet-card">
+                    <div class="snippet-trigger">nnn</div>
+                    <div class="snippet-result">\bigcap_{i \in I} |</div>
+                    <div class="snippet-description">Intersezione grande</div>
+                </div>
+                <div class="snippet-card">
+                    <div class="snippet-trigger"><!</div>
+                    <div class="snippet-result">\triangleleft</div>
+                    <div class="snippet-description">Sottogruppo normale</div>
+                </div>
+                <div class="snippet-card">
+                    <div class="snippet-trigger"><></div>
+                    <div class="snippet-result">\diamond</div>
+                    <div class="snippet-description">Diamante</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="category">
+            <h2>📝 Testo in Math e Annotazioni</h2>
+            <div class="snippet-grid">
+                <div class="snippet-card">
+                    <div class="snippet-trigger">sts</div>
+                    <div class="snippet-result">_\text{|}</div>
+                    <div class="snippet-description">Testo come pedice</div>
+                    <div class="context-badge math">Solo in math</div>
+                </div>
+                <div class="snippet-card">
+                    <div class="snippet-trigger">letw</div>
+                    <div class="snippet-result">Let $\Omega \subset \C$ be open.</div>
+                    <div class="snippet-description">Frase matematica comune</div>
+                </div>
+                <div class="snippet-card">
+                    <div class="snippet-trigger">sympy</div>
+                    <div class="snippet-result">sympy | sympy</div>
+                    <div class="snippet-description">Placeholder per calcoli SymPy</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="category">
+            <h2>🔧 Utilità Speciali</h2>
+            <div class="snippet-grid">
+                <div class="snippet-card">
+                    <div class="snippet-trigger">SI</div>
+                    <div class="snippet-result">\SI{valore}{unità}</div>
+                    <div class="snippet-description">Unità di misura SI</div>
+                </div>
+                <div class="snippet-card">
+                    <div class="snippet-trigger">cvec</div>
+                    <div class="snippet-result">\begin{pmatrix} 
+x_{1}\\ 
+\vdots\\ 
+x_{n} 
+\end{pmatrix}</div>
+                    <div class="snippet-description">Vettore colonna</div>
+                </div>
+                <div class="snippet-card">
+                    <div class="snippet-trigger">pmat</div>
+                    <div class="snippet-result">\begin{pmatrix} | \end{pmatrix}</div>
+                    <div class="snippet-description">Matrice con parentesi tonde</div>
+                </div>
+                <div class="snippet-card">
+                    <div class="snippet-trigger">bmat</div>
+                    <div class="snippet-result">\begin{bmatrix} | \end{bmatrix}</div>
+                    <div class="snippet-description">Matrice con parentesi quadre</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <button class="export-btn" onclick="exportToCSV()">📊 Esporta CSV</button>
+
+    <script>
+        // Search functionality
+        const searchInput = document.getElementById('searchInput');
+        const snippetCards = document.querySelectorAll('.snippet-card');
+        const categories = document.querySelectorAll('.category');
+
+        searchInput.addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase();
+            
+            categories.forEach(category => {
+                let hasVisibleCards = false;
+                const cards = category.querySelectorAll('.snippet-card');
+                
+                cards.forEach(card => {
+                    const trigger = card.querySelector('.snippet-trigger').textContent.toLowerCase();
+                    const result = card.querySelector('.snippet-result').textContent.toLowerCase();
+                    const description = card.querySelector('.snippet-description').textContent.toLowerCase();
+                    
+                    if (trigger.includes(searchTerm) || 
+                        result.includes(searchTerm) || 
+                        description.includes(searchTerm)) {
+                        card.classList.remove('hidden');
+                        hasVisibleCards = true;
+                    } else {
+                        card.classList.add('hidden');
+                    }
+                });
+                
+                // Hide category if no cards are visible
+                if (hasVisibleCards) {
+                    category.classList.remove('hidden');
+                } else {
+                    category.classList.add('hidden');
+                }
+            });
+        });
+
+        // Export to CSV functionality
+        function exportToCSV() {
+            const data = [];
+            
+            categories.forEach(category => {
+                const categoryName = category.querySelector('h2').textContent.replace(/[📝📋🖼️🔢🎯🎨⚡🔧]/g, '').trim();
+                const cards = category.querySelectorAll('.snippet-card');
+                
+                cards.forEach(card => {
+                    const trigger = card.querySelector('.snippet-trigger').textContent;
+                    const result = card.querySelector('.snippet-result').textContent.replace(/\n/g, '\\n');
+                    const description = card.querySelector('.snippet-description').textContent;
+                    const contextBadges = Array.from(card.querySelectorAll('.context-badge')).map(badge => badge.textContent).join(', ');
+                    
+                    data.push([categoryName, trigger, result, description, contextBadges]);
+                });
+            });
+            
+            // Create CSV content
+            let csvContent = "Categoria,Trigger,Risultato,Descrizione,Contesto\n";
+            data.forEach(row => {
+                csvContent += row.map(field => `"${field.replace(/"/g, '""')}"`).join(',') + '\n';
+            });
+            
+            // Download CSV
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            const url = URL.createObjectURL(blob);
+            link.setAttribute('href', url);
+            link.setAttribute('download', 'latex_snippets.csv');
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        // Add smooth animations
+        document.querySelectorAll('.snippet-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-3px)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0)';
+            });
+        });
+    </script>
+</body>
+</html>
