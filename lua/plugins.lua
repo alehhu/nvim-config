@@ -378,16 +378,29 @@ return {
 	},
 	{
 		"lervag/vimtex",
-		ft = { "tex", "latex" },
+		ft = { "tex", "latex" }, -- load only for these filetypes
 		lazy = false,
-		init = function()
+		init = function() -- function that runs before the plugin is loaded
 			vim.g.tex_flavor = "latex"
 			vim.g.vimtex_view_method = "skim"
-			vim.g.vimtex_compiler_method = "latexmk"
 			vim.g.maplocalleader = "\\"
-			vim.g.vimtex_quickfix_mode = 0
+			vim.g.vimtex_quickfix_mode = 1
 			vim.opt.conceallevel = 1
 			vim.g.tex_conceal = "abdmg"
+			vim.g.vimtex_compiler_method = "latexmk"
+			vim.g.vimtex_compiler_latexmk = {
+				build_dir = "build",
+				callback = 1,
+				continuous = 1,
+				executable = "latexmk",
+				options = {
+					"-pdf",
+					"-shell-escape",
+					"-file-line-error",
+					"-synctex=1",
+					"-interaction=nonstopmode",
+				},
+			}
 		end,
 	},
 
