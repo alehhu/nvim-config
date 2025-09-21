@@ -382,7 +382,7 @@ return {
 		lazy = false,
 		init = function() -- function that runs before the plugin is loaded
 			vim.g.tex_flavor = "latex"
-			vim.g.vimtex_view_method = "skim"
+			vim.g.vimtex_compiler_method = "latexmk"
 			vim.g.maplocalleader = "\\"
 			vim.g.vimtex_quickfix_mode = 1
 			vim.opt.conceallevel = 1
