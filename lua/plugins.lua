@@ -196,10 +196,10 @@ return {
 			{ "nvim-telescope/telescope.nvim" },
 		},
 		opts = {
-			window = { layout = "float", border = "rounded", title = "My AI slave 🤖😈" },
+			window = { layout = "float", border = "rounded", title = "AI helper 🤖😈" },
 			headers = {
-				user = "🧑 Handsome Dude",
-				assistant = "🤖 Jarvis",
+				user = "🧑 You",
+				assistant = "🤖 Megatron",
 			},
 			separator = "--/!@§/--",
 			auto_follow_cursor = false,
@@ -376,6 +376,7 @@ return {
 			})
 		end,
 	},
+
 	{
 		"lervag/vimtex",
 		ft = { "tex", "latex" }, -- load only for these filetypes
@@ -383,11 +384,11 @@ return {
 		init = function() -- function that runs before the plugin is loaded
 			vim.g.tex_flavor = "latex"
 			vim.g.vimtex_compiler_method = "latexmk"
+			vim.g.vimtex_view_method = "zathura"
 			vim.g.maplocalleader = "\\"
-			vim.g.vimtex_quickfix_mode = 1
+			vim.g.vimtex_quickfix_mode = 0
 			vim.opt.conceallevel = 1
 			vim.g.tex_conceal = "abdmg"
-			vim.g.vimtex_compiler_method = "latexmk"
 			vim.g.vimtex_compiler_latexmk = {
 				build_dir = "build",
 				callback = 1,
